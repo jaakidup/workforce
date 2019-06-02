@@ -5,33 +5,43 @@ import (
 	"testing"
 )
 
+var joblist = []Job{
+	Job{
+		ID: "2",
+		Input: map[string]interface{}{
+			"method": "GET",
+			"url":    "http://someurl.com",
+			"body": map[string]string{
+				"testdata1": "sample",
+				"testdata2": "sample",
+			},
+		},
+	},
+}
+
 func TestWorkforce(t *testing.T) {
-	joblist := []Job{
-		Job{
-			ID:          "1",
-			Description: "Test Job",
-		},
-		Job{
-			ID:          "2",
-			Description: "Test Job",
-		},
-	}
 
 	workforce := Workforce{}
 	task := func(worker *Worker) {
-		worker.Job.WorkerID = worker.ID
-		// do some random stuff
+		// for name, value := range worker.Job.Input {
+		// 	fmt.Println(name, " => ", value)
+		// }
+		worker.Job.Output = "Sample Data"
+
 		worker.Job.Completed = true
 	}
 
 	completed := workforce.StartSweatshop(2, joblist, task)
 
-	fmt.Println(completed.Jobs)
-	//Output: [{1 Test Job IDI-0 true} {2 Test Job IDI-1 true}]
-	if !completed.Jobs[0].Completed == true {
-		t.Error("Should have been completed")
+	// fmt.Println(completed.Jobs)
+	data := completed.Jobs[0].Output
+	if data != "Sample Data" {
+		t.Error("Should have been 'Sample Data' ")
 	}
-	if !completed.Jobs[1].Completed == true {
+	// if !completed.Jobs[0].Output == "Sample Data" {
+	// 	t.Error("Should have been completed")
+	// }
+	if !completed.Jobs[0].Completed == true {
 		t.Error("Should have been completed")
 	}
 }
@@ -44,26 +54,17 @@ func ExampleSample() {
 
 func Example() {
 
-	joblist := []Job{
-		Job{
-			ID:          "1",
-			Description: "Test Job",
-		},
-		Job{
-			ID:          "2",
-			Description: "Test Job",
-		},
-	}
-
 	task := func(worker *Worker) {
-		worker.Job.WorkerID = worker.ID
-		// do some random stuff...
+		// for name, value := range worker.Job.Input {
+		// 	fmt.Println(name, " => ", value)
+		// }
+		worker.Job.Output = "Sample Data"
 		worker.Job.Completed = true
 	}
 	workforce := &Workforce{}
 	completed := workforce.StartSweatshop(2, joblist, task)
 
 	fmt.Println(completed.Jobs)
-	//Output: [{1 Test Job IDI-0 true} {2 Test Job IDI-1 true}]
+	//Output: [{2 map[body:map[testdata1:sample testdata2:sample] method:GET url:http://someurl.com] Sample Data  true}]
 
 }

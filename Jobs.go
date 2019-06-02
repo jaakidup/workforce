@@ -2,10 +2,11 @@ package workforce
 
 // Job describes the task at hand
 type Job struct {
-	ID          string `json:"id,omitempty"`
-	Description string `json:"description,omitempty"`
-	WorkerID    string `json:"worker_id,omitempty"`
-	Completed   bool   `json:"completed,omitempty"`
+	ID        string                 `json:"id,omitempty"`
+	Input     map[string]interface{} `json:"input,omitempty"`
+	Output    interface{}            `json:"output,omitempty"`
+	WorkerID  string                 `json:"worker_id,omitempty"`
+	Completed bool                   `json:"completed,omitempty"`
 }
 
 // JobList ...
