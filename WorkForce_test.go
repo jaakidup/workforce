@@ -33,14 +33,10 @@ func TestWorkforce(t *testing.T) {
 
 	completed := workforce.StartSweatshop(2, joblist, task)
 
-	// fmt.Println(completed.Jobs)
 	data := completed.Jobs[0].Output
 	if data != "Sample Data" {
 		t.Error("Should have been 'Sample Data' ")
 	}
-	// if !completed.Jobs[0].Output == "Sample Data" {
-	// 	t.Error("Should have been completed")
-	// }
 	if !completed.Jobs[0].Completed == true {
 		t.Error("Should have been completed")
 	}
